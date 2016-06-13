@@ -4,7 +4,7 @@ import flask_sqlalchemy
 import shutil
 from flask import render_template
 
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 80
 DEBUG=True
 
@@ -13,6 +13,7 @@ app = flask.Flask(__name__, static_url_path='/static')
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///scholars.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = flask_sqlalchemy.SQLAlchemy(app)
+db.create_all()
 
 ##########
 # Models #
@@ -36,19 +37,15 @@ class Scholar(db.Model):
 # list all files.
 @app.route("/", methods=["GET"])
 def list_files():
-  data = flask.request.get_json()
- 
   yearly_totals = []
 
   year = 1990
-
   while(year<=2016):
     year_tot = Scholar.query.filter_by(year=year).all()
     yearly_totals.append(len(year_tot))
     year += 1
  
   
-
   return render_template('index.html', yearly_totals=yearly_totals)
 
 @app.route('/turret.min.css/hi/hi')
