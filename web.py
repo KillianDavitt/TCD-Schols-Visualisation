@@ -51,6 +51,17 @@ def list_files():
   query = db.session.query(Scholar.course.distinct().label("course"))
   courses = [row.course for row in query.all()]
 
+  course_bars = []
+  year_limit = 2005
+
+  for item in courses:
+    sch = Scholar.query.filter_by(course=item).all()
+    if len(sch)<100:
+        continue
+    course_bars.append((item,len(sch)))
+
+  course_bars = sorted(course_bars, key=lambda bar: bar[1])
+
   course_data = []
 
   for item in courses:
@@ -69,7 +80,7 @@ def list_files():
     course_data.append(thing)
 
 
-  return render_template('index.html', yearly_totals=yearly_totals, course_data=course_data[:10])
+  return render_template('index.html', yearly_totals=yearly_totals, course_data=course_data[:10], course_bars=course_bars)
 
 #######
 # Run #
