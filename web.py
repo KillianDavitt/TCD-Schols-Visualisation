@@ -54,6 +54,9 @@ def list_files():
   course_data = []
 
   for item in courses:
+    test_total = Scholar.query.filter_by(course=item).all()
+    if len(test_total) <30:
+        continue
     yearly_total_course = []
     year = 1990
     while(year<=2016):
@@ -67,11 +70,6 @@ def list_files():
 
 
   return render_template('index.html', yearly_totals=yearly_totals, course_data=course_data[:10])
-
-@app.route('/turret.min.css/hi/hi')
-def turret():
-  print("IONN")
-  return app.send_static_file('turret.min.css')
 
 #######
 # Run #
