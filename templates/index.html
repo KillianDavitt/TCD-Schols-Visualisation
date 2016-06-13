@@ -8,11 +8,13 @@
 
     <title>Scholars Data</title>
 </head>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.5/Chart.min.js"></script>
 <div class="container">
 <h1>Scholars Data</h1>
+<p>Here are some charts which visualise how scholarships have been awarded by <a href="https://www.tcd.ie">TCD</a> over the last several years. The data is taken from <a href-"http://www.tcdlife.ie/scholars/scholar/about-list.php">This site</a>
+<br>
 
+<h3>This chart shows how the total number of scholarships awarded over the last 26 years has changed</h3>
 <canvas id="totals_chart" width="600" height="300"></canvas>
 
 </div>
@@ -76,5 +78,84 @@ var myLineChart = Chart.Line(ctx, {
 
 
 </script>
+
+<br><br>
+<div class="container">
+<h3>This chart shows the number of scholarships based on course<h3>
+<h5>Click a course name to include/disinclude</h5>
+
+<canvas id="course_chart" width="600" height="300"></canvas>
+
+</div>
+
+<script>
+var ctx = document.getElementById("course_chart");
+var data = {
+    labels: [
+        {% for point in yearly_totals %}
+            
+            {{ 1989 +  loop.index }}
+
+            {% if not loop.last %}
+                ,
+            {% endif %}
+        {% endfor %}
+    
+    ],
+    datasets: [
+            
+            {% for course in course_data %}
+        {
+
+            label: "Total number of scholars by year for {{ course[0] }}",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba({{ (loop.index*loop.index*loop.index*loop.index) % 255 }},{{ (loop.index*loop.index*loop.index*loop.index) % 255 }},{{ (loop.index*loop.index*loop.index*loop.index) % 255 }},0.4)",
+            borderColor: "rgba({{ (loop.index*loop.index*loop.index*loop.index) % 255 }},{{ (loop.index*loop.index*loop.index*loop.index) % 255 }},{{ (loop.index*loop.index*loop.index*loop.index) % 255 }},1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba({{ (loop.index*loop.index*loop.index) % 255 }},0,0,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba({{ (loop.index*loop.index*loop.index) % 255 }},192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [
+                {% for point in course[1] %}
+                    {{ point }}
+
+                    {% if not loop.last %}
+                        ,
+                    {% endif %}
+
+                {% endfor %}
+            ],
+        } 
+            {% if not loop.last %}
+                ,
+            {% endif %}
+
+            {% endfor %}
+    ]
+};
+var myLineChart = Chart.Line(ctx, {
+    data: data,
+        options: {
+                scales: {
+              
+                     }
+    }
+});
+
+
+
+</script>
+
+
 
 </html>

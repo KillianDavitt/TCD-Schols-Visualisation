@@ -4,7 +4,7 @@ import flask_sqlalchemy
 import shutil
 from flask import render_template
 
-HOST = "0.0.0.0"
+HOST = "127.0.0.1"
 PORT = 80
 DEBUG=True
 
@@ -45,8 +45,28 @@ def list_files():
     yearly_totals.append(len(year_tot))
     year += 1
  
+ 
   
-  return render_template('index.html', yearly_totals=yearly_totals)
+
+  query = db.session.query(Scholar.course.distinct().label("course"))
+  courses = [row.course for row in query.all()]
+
+  course_data = []
+
+  for item in courses:
+    yearly_total_course = []
+    year = 1990
+    while(year<=2016):
+      year_tot = Scholar.query.filter_by(year=year, course=item).all()
+      yearly_total_course.append(len(year_tot))
+      year += 1
+ 
+    thing = (item, yearly_total_course)
+
+    course_data.append(thing)
+
+
+  return render_template('index.html', yearly_totals=yearly_totals, course_data=course_data[:10])
 
 @app.route('/turret.min.css/hi/hi')
 def turret():
