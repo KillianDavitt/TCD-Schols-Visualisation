@@ -55,8 +55,8 @@ def list_files():
   year_limit = 2005
 
   for item in courses:
-    sch = Scholar.query.filter_by(course=item).all()
-    if len(sch)<100:
+    sch = Scholar.query.filter(Scholar.course==item, Scholar.year >= 1990).all()
+    if len(sch)<50:
         continue
     course_bars.append((item,len(sch)))
 

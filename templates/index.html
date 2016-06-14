@@ -79,8 +79,8 @@ var myLineChart = Chart.Line(ctx, {
 
 </script>
 <div class="container">
-<br><br>
-<h3>This chart shows how the total number of scholarships is distributed amongst courses</h3>
+<br><br><br><br>
+<h3>This chart shows the 10 courses awarded the most scholarships over the last 26 years</h3>
 <canvas id="course_totals_chart" width="600" height="300"></canvas>
 
 </div>
@@ -101,7 +101,7 @@ var data = {
     ],
     datasets: [
         {
-            label: "Total number of scholars by year",
+            label: "Total scholars by course",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "rgba(75,192,192,0.4)",
@@ -146,6 +146,7 @@ var myLineChart = Chart.Bar(ctx, {
 
 
 <br><br>
+{#"
 <div class="container">
 <h3>This chart shows the number of scholarships based on course<h3>
 <h5>Click a course name to include/disinclude</h5>
@@ -222,6 +223,6 @@ var myLineChart = Chart.Line(ctx, {
 
 </script>
 
-
+" #}
 
 </html>
